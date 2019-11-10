@@ -1,0 +1,27 @@
+CPP = g++
+LIB_NAME = lib
+MAIN = rMain
+LFLAGS = -L./ -l$(LIB_NAME) -ldl -Wl,-rpath,./
+
+# nel codice C++ bisogna aggiungere l'apertura della libreria
+# dinamica; il percorso in teoria non si dovrebbe specificare
+
+all: startRdynamicLib
+
+startRdynamicLib: $(MAIN).o $(LIB_NAME).so
+	$(CPP) -rdynamic -o startRdynamicLib $(MAIN).o $(LFLAGS)
+
+$(LIB_NAME).so: $(LIB_NAME).o
+	$(CPP) -shared -Wl,-soname,lib$(LIB_NAME).so -o lib$(LIB_NAME).so $(LIB_NAME).o
+
+$(LIB_NAME).o: $(LIB_NAME).cpp $(LIB_NAME).h
+	$(CPP) -fPIC -c $(LIB_NAME).cpp
+
+$(MAIN).o: $(MAIN).cpp $(LIB_NAME).h
+	$(CPP) -c $(MAIN).cpp
+
+clean:
+	rm -f *.o
+	rm -f ./startRdynamicLib
+	rm -f ./lib$(LIB_NAME).so
+	rm -f *~

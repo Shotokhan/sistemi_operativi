@@ -1,0 +1,11 @@
+1) Implementare l'altra soluzione a prod/cons, con coda circolare
+2) Scrivere un'applicazione concorrente per il calcolo della somma
+   degli elementi contenuti in una matrice. Ciascun processo opera
+   su una colonna ed alla fine un ultimo processo calcola la somma
+   delle somme parziali. La matrice ed il buffer sums devono essere
+   immagazzinati in memoria condivisa. I processi accedono al buffer
+   sums senza alcun vincolo sulla posizione, nel senso che il primo
+   che finisce scrive in sums[0] e così via. Il processo per la somma
+   totale resta in attesa della terminazione di tutti gli altri processi:
+   wait_for_zero; il processo padre, diverso da quest'ultimo, attende
+   TUTTI i processi e stampa a video la somma.

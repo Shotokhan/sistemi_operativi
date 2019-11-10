@@ -1,0 +1,14 @@
+Per usare i Makefiles:
+1) make
+In questo modo, si chiama make sul file Makefile,
+comportamento di default
+2) make -f MakefileSecondario
+In questo modo si può chiamare make su qualsiasi
+altro Makefile
+3) make clean
+In questo modo, si chiama il blocco clean,
+utile per testare correttamento lo stesso Makefile
+o altri Makefiles
+4) make -f MakefileSecondario clean
+In questo modo si chiama il blocco clean di un altro
+Makefile, utile ad esempio per cancellare le librerie

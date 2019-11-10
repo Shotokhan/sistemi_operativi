@@ -1,0 +1,26 @@
+CPP = g++
+LIB_NAME = lib
+LFLAGS = -L./ -l$(LIB_NAME) -Wl,-rpath,./
+
+all: startShLib
+
+startShLib: main.o $(LIB_NAME).so
+	$(CPP) -o startShLib main.o $(LFLAGS)
+
+# L'ultima opzione del comando corrispondente a startShLib
+# informa il runtime environment dove cercare le librerie condivide
+
+$(LIB_NAME).so: $(LIB_NAME).o
+	$(CPP) -shared -Wl,-soname,lib$(LIB_NAME).so -o lib$(LIB_NAME).so $(LIB_NAME).o
+
+$(LIB_NAME).o: lib.cpp $(LIB_NAME).h
+	$(CPP) -fPIC -c $(LIB_NAME).cpp
+
+main.o: main.cpp $(LIB_NAME).h
+	$(CPP) -c main.cpp
+
+clean:
+	rm -f *.o
+	rm -f ./startShLib
+	rm -f ./lib$(LIB_NAME).so
+	rm -f *~

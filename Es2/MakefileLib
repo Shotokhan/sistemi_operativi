@@ -1,0 +1,21 @@
+CPP = g++
+
+all: startLib
+
+startLib: lib.a main.o
+	$(CPP) -o startLib main.o -L./ -llib
+
+lib.a: lib.o
+	ar -rcs liblib.a lib.o
+
+lib.o: lib.cpp lib.h
+	$(CPP) -c lib.cpp
+
+main.o: main.cpp lib.h
+	$(CPP) -c main.cpp
+
+clean:
+	rm -f *.o
+	rm -f ./startLib
+	rm -f ./liblib.a
+	rm -f *~
