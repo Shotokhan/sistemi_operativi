@@ -36,6 +36,7 @@ void scrittore(monitor* M, meteo* ds_shm){
 	ds_shm->temperatura = rand() % 101 - 50;
 	ds_shm->umidita = rand() % 100;
 	ds_shm->pioggia = rand() % 2;
+	printf("Scrittura del proc. %d: Temp. %d, Umidita %d, Pioggia %d\n", getpid(), ds_shm->temperatura, ds_shm->umidita, ds_shm->pioggia);
 	fineScrittura(M, ds_shm);
 }
 
@@ -47,7 +48,7 @@ void lettore(monitor* M, meteo* ds_shm){
 
 void inizioScrittura(monitor* M, meteo* ds_shm){
 	enter_monitor(M);
-	if(ds_shm->numScrittori > 0 || ds_shm->numLettori > 0){
+	while(ds_shm->numScrittori > 0 || ds_shm->numLettori > 0){
 		wait_condition(M, COND_S);
 	}
 	ds_shm->numScrittori += 1;
@@ -67,7 +68,7 @@ void fineScrittura(monitor* M, meteo* ds_shm){
 
 void inizioLettura(monitor* M, meteo* ds_shm){
 	enter_monitor(M);
-	if(ds_shm->numScrittori > 0){
+	while(ds_shm->numScrittori > 0){
 		wait_condition(M, COND_L);
 	}
 	if(M->cond[COND_L] > 0){
