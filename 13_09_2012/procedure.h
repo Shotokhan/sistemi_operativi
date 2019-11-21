@@ -9,6 +9,7 @@
 typedef struct{
 	int buffer[DIM];
 	int testa; int coda;
+	int numOccupati;
 	monitor m;
 } PriorityProdCons;
 

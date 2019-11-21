@@ -27,6 +27,7 @@ void wait_cond(monitor* m, int id_cond){
 	Signal_Sem(m->mutex, 0);
 	Wait_Sem(m->condsem, id_cond);
 	m->cond[id_cond] -= 1;
+	Wait_Sem(m->mutex, 0);
 }
 
 void init_monitor(monitor* m, int n_cond){
