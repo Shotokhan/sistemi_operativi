@@ -6,11 +6,15 @@
 
 #include "procedure.h"
 
-#define N 5
+#define N 10
 
 int main(){
 	pthread_t thread[N];
-	int id[N] = {1, 2, 3, 4, 5};
+	int id[N];
+	for(int i = 0; i < N; i++){
+		id[i] = i+1;
+	}
+	
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);

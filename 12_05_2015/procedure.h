@@ -23,9 +23,9 @@ void* ThreadLifeline(void* heap);
 
 void InserisciVolo (GestioneVoli* g, int id);
 
-void AggiornaVolo (GestioneVoli* g, int id, int quota);
+int AggiornaVolo (GestioneVoli* g, int id, int quota);
 
-void RimuoviVolo (GestioneVoli* g, int id);
+int RimuoviVolo (GestioneVoli* g, int id);
 
 void init_GestioneVoli(GestioneVoli* g);
 

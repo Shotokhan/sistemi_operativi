@@ -12,10 +12,23 @@ void* ThreadLifeline(void* heap){
 	printf("Sono il thread a cui è stato passato l'id %d\n", id);
 	int quota[3] = {1000, 2000, 1000};
 	InserisciVolo(g, id);
+	// Ho gestito il caso in cui la trylock non entra
+	// mediante un retry qui con una sleep random
+	int r = 0;
 	for(int i = 0; i < 3; i++){
-		AggiornaVolo(g, id, quota[i]);
+		do {
+			r = AggiornaVolo(g, id, quota[i]);
+			if (r == -1){
+				sleep(rand() % 3 + 1);
+			}
+		} while(r == -1);
 	}
-	RimuoviVolo(g, id);
+	do{
+		r = RimuoviVolo(g, id);
+		if (r == -1){
+			sleep(1);
+		}
+	} while(r == -1);
 	pthread_exit(NULL);
 }
 
@@ -42,7 +55,7 @@ void InserisciVolo (GestioneVoli* g, int id){
 	pthread_mutex_unlock(&(g->mutex));
 }
 
-void AggiornaVolo (GestioneVoli* g, int id, int quota){
+int AggiornaVolo (GestioneVoli* g, int id, int quota){
 	if(pthread_mutex_trylock(&(g->mutex)) == 0){
 		int i = 0;
 		while(i < DIM && !(g->stato[i] == OCCUPATO && (g->vettore_voli[i]).id == id) ){
@@ -56,12 +69,14 @@ void AggiornaVolo (GestioneVoli* g, int id, int quota){
 		sleep(sleepTime);
 		g->stato[i] = OCCUPATO;
 		printf("Aggiornamento del volo %d alla quota %d completato \n", id, quota);
+		return 0;
 	} else{
-		printf("Aggiornamento del volo %d alla quota %d non riuscito\n", id, quota);
+		printf("Aggiornamento del volo %d alla quota %d non riuscito. Riprovare\n", id, quota);
+		return -1;
 	}
 }
 
-void RimuoviVolo (GestioneVoli* g, int id){
+int RimuoviVolo (GestioneVoli* g, int id){
 	if(pthread_mutex_trylock(&(g->mutex)) == 0){
 		int i = 0;
 		while(i < DIM && !(g->stato[i] == OCCUPATO && (g->vettore_voli[i]).id == id) ){
@@ -78,13 +93,15 @@ void RimuoviVolo (GestioneVoli* g, int id){
 			g->stato[i] = LIBERO;
 			pthread_cond_signal(&(g->prod));
 			printf("Rimozione del volo %d completata\n", id);
+			return 0;
 		} else{
 			g->stato[i] = OCCUPATO;
-			printf("Rimozione del volo %d non riuscita\n", id);
+			printf("Rimozione del volo %d non riuscita. Riprovare\n", id);
 		}
 	} else{
-		printf("Rimozione del volo %d non riuscita\n", id);
+		printf("Rimozione del volo %d non riuscita. Riprovare\n", id);
 	}
+	return -1;
 }
 
 void init_GestioneVoli(GestioneVoli* g){
