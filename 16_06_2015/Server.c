@@ -27,7 +27,7 @@ int main(){
 	buffer tBuf[N_THREADS];
 	initBuffer(tBuf, N_THREADS, msqid);
 	for(int i = 0; i < N_THREADS; i++){
-		pthread_create(&thread[i], &attr, serverWorker, &tBuf[i]);
+		pthread_create(&thread[i], &attr, serverWorker, (void*) &tBuf[i]);
 	}
 	int st;
 	for(int i = 0; i < N_THREADS; i++){
