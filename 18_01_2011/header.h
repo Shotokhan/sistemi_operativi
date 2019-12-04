@@ -1,5 +1,5 @@
 #define N_CLIENT 8
-#define N_BALANCE 1
+#define N_BALANCE 2
 #define N_SERVER 3
 
 #define KEY_PATH "./"
@@ -19,12 +19,12 @@ void client(int qidClient);
 // possono gestire in mutua esclusione una variabile 
 // di conteggio per il balancing circolare dei server
 
-void balancer(int qidClient, int qidBalance, int qidServer);
+void balancer(int qidClient, int qidBalance, int qidServer[]);
 
-void server(int qidServer, int serverNum);
+void server(int qidServer);
 
-void initQueues(int* qidClient, int* qidBalance, int* qidServer);
+void initQueues(int* qidClient, int* qidBalance, int qidServer[]);
 
-void removeQueues(int qidClient, int qidBalance, int qidServer);
+void removeQueues(int qidClient, int qidBalance, int qidServer[]);
 
 void checkError(int retVal, char* msg);

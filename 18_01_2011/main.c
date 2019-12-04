@@ -9,8 +9,8 @@
 #include "header.h"
 
 int main(){
-	int qidClient, qidBalance, qidServer;
-	initQueues(&qidClient, &qidBalance, &qidServer);
+	int qidClient, qidBalance, qidServer[3];
+	initQueues(&qidClient, &qidBalance, qidServer);
 	
 	int pid, st;
 	for(int i=0; i<N_CLIENT; i++){
@@ -40,11 +40,11 @@ int main(){
 	for(int i=0; i<N_SERVER; i++){
 		pid = fork();
 		if(pid == 0){
-			int serverNum = i + 1;
-			printf("Sono il server %d, di tipo %d\n", getpid(), serverNum);
+			printf("Sono il server %d, con coda %d\n", getpid(), qidServer[i]);
+			int serverNum = i;
 			int numIterations = N_CLIENT * 15 / N_SERVER;
 			for(int i=0; i < numIterations; i++){
-				server(qidServer, serverNum);
+				server(qidServer[serverNum]);
 			}
 			_exit(0);
 		} else checkError(pid, "Errore creazione processo\n");
