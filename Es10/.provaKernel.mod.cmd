@@ -1,0 +1,1 @@
+cmd_/home/marcofelix98/Sistemi_Operativi/Esercitazioni/Es10/provaKernel.mod := { echo  /home/marcofelix98/Sistemi_Operativi/Esercitazioni/Es10/provaKernel.o; echo; } > /home/marcofelix98/Sistemi_Operativi/Esercitazioni/Es10/provaKernel.mod
