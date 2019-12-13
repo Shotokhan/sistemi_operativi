@@ -1,0 +1,15 @@
+Multithread, calcoli matematici, monitor produttore consumatore.
+Ci sono 2 monitor: 2 code.
+MonitorOperandi (5 operandi)
+MonitorRisultati (5 risultati)
+3 gruppi di thread:
+1) 1 solo thread, chiama inserisci_operando 12 volte passando valori random da 1 a 10 ad
+   un vettore di operandi gestito come una coda circolare
+2) 3 thread, ciascuno chiama preleva_operando 4 volte ritornando il valore estratto
+   dalla coda circolare; poi calcola il quadrato ed inserisce il
+   valore chiamando inserisci_risultato nell'altra coda circolare
+3) 1 thread, chiama 12 volte il metodo preleva_risultato, contando il numero
+   di volte che il risultato è minore o uguale a 25 ed il numero di volte
+   che è maggiore di 25, e stampando i due conteggi.
+
+I thread si sospendono se non possono accedere.
