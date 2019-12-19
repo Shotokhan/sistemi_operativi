@@ -69,7 +69,7 @@ int main(){
 void checkError(int ret, char* msg){
 	if(ret < 0){
 		perror(msg);
-		_exit(0);
+		_exit(1);
 	}
 }
 
